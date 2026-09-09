@@ -22,15 +22,15 @@ AURA models an enterprise retail platform by isolating distinct microservices—
 
 ## 2. Features
 
-- \*\*Event-Driven Microservices:\*\* Asynchronous messaging via `EventBus` powered by Java virtual threads.
+- **Event-Driven Microservices:** Asynchronous messaging via `EventBus` powered by Java virtual threads.
 
-- \*\*Compensating Transaction Saga:\*\* Automatic inventory rollback if payment processing encounters an error or rejection.
+- **Compensating Transaction Saga:** Automatic inventory rollback if payment processing encounters an error or rejection.
 
-- \*\*Thread-Safe Inventory Control:\*\* Synchronized inventory methods preventing overselling and race conditions.
+- **Thread-Safe Inventory Control:** Synchronized inventory methods preventing overselling and race conditions.
 
-- \*\*Interactive Terminal UI:\*\* Complete CLI with box-drawing ASCII borders for catalog browsing, cart tracking, and purchase receipts.
+- **Interactive Terminal UI:** Complete CLI with box-drawing ASCII borders for catalog browsing, cart tracking, and purchase receipts.
 
-- \*\*Automated Test Suite:\*\* Built-in JUnit 5 tests covering positive checkout, insufficient inventory errors, and rollback logic.
+- **Automated Test Suite:** Built-in JUnit 5 tests covering positive checkout, insufficient inventory errors, and rollback logic.
 
 
 
@@ -40,13 +40,13 @@ AURA models an enterprise retail platform by isolating distinct microservices—
 
 ## 3. Technologies Used
 
-- \*\*Language:\*\* Java 21
+- **Language:** Java 21
 
-- \*\*Build Tool:\*\* Apache Maven 3.9+
+- **Build Tool:** Apache Maven 3.9+
 
-- \*\*Testing:\*\* JUnit 5 (Jupiter)
+- **Testing:** JUnit 5 (Jupiter)
 
-- \*\*Version Control:\*\* Git
+- **Version Control:** Git
 
 
 
