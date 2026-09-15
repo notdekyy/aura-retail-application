@@ -117,6 +117,68 @@ Attributes:
 - totalAmount: BigDecimal (Aggregated financial total)
 
 - status: OrderStatus (PENDING, CONFIRMED, REJECTED, SHIPPED)
+```
+
+### Data Storage & Concurrency
+- **ConcurrentHashMap<String, User>**: Thread-safe storage for registered accounts
+- **ConcurrentHashMap<String, Product>**: In-memory catalog supporting concurrent read and atomic stock deductions
+- **ConcurrentHashMap<String, Order>**: Order ledger mapping order UUIDs to order entities
+- **CopyOnWriteArrayList<Consumer<DomainEvent>>**: Thread-safe subscriber lists inside the asynchronous `EventBus`
+
+---
+
+## Complete Source Code & Implementation
+
+### 1. Build Configuration (`pom.xml`)
+```xml
+<project xmlns="[http://maven.apache.org/POM/4.0.0](http://maven.apache.org/POM/4.0.0)"
+         xmlns:xsi="[http://www.w3.org/2001/XMLSchema-instance](http://www.w3.org/2001/XMLSchema-instance)"
+         xsi:schemaLocation="[http://maven.apache.org/POM/4.0.0](http://maven.apache.org/POM/4.0.0) [http://maven.apache.org/xsd/maven-4.0.0.xsd](http://maven.apache.org/xsd/maven-4.0.0.xsd)">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ecommerce</groupId>
+    <artifactId>aura-retail-application</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>com.ecommerce.Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
 
 - createdAt: Instant (Order placement timestamp)
 ```
