@@ -6,7 +6,7 @@
 **Department:** Computer Science and Engineering  
 **Submitted By:** Chirag Bhatia  
 **Registration Number:** 25BAI10766  
-**Submitted To:** Faculty Evaluator  
+**Submitted To:** Dr. Manorma Chouhan  
 **Date of Submission:** September 15, 2026  
 **Academic Year:** 2026-2027
 
