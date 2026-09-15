@@ -1,74 +1,144 @@
-# AURA: Architectural Unified Retail Application
+# AURA: Architectural Unified Retail Application - CSE Project
 
-
-
-A modular, event-driven e-commerce backend built with Java 21, demonstrating clean domain-driven design, thread-safe inventory management, and automated transaction rollbacks.
-
-
-
----
-
-
-
-## 1. Project Overview
-
-AURA models an enterprise retail platform by isolating distinct microservices—User, Product Catalog, Order Fulfillment, Payment, and Notification—and integrating them through an asynchronous Event Bus.
-
-
+**VIT Bhopal University**  
+**Course:** Computer Science and Engineering  
+**Submitted To:** Faculty Evaluator  
+**Student Name:** Chirag Bhatia  
+**Registration Number:** 25BAI10766  
+**Date of Submission:** September 15, 2026  
 
 ---
 
+## Overview
 
+The **Architectural Unified Retail Application (AURA)** is an enterprise-grade, console-based e-commerce platform developed in Java. The project simulates a distributed retail system by decomposing operations into discrete, decoupled domain microservices: User Identity, Product Catalog, Order Fulfillment, Payment Settlement, and Notifications.
 
-## 2. Features
-
-- **Event-Driven Microservices:** Asynchronous messaging via `EventBus` powered by Java virtual threads.
-
-- **Compensating Transaction Saga:** Automatic inventory rollback if payment processing encounters an error or rejection.
-
-- **Thread-Safe Inventory Control:** Synchronized inventory methods preventing overselling and race conditions.
-
-- **Interactive Terminal UI:** Complete CLI with box-drawing ASCII borders for catalog browsing, cart tracking, and purchase receipts.
-
-- **Automated Test Suite:** Built-in JUnit 5 tests covering positive checkout, insufficient inventory errors, and rollback logic.
-
-
+This project demonstrates core concepts of modern software engineering, including **Domain-Driven Design (DDD)**, **Saga orchestration with compensating transactions**, **thread-safe concurrency control**, and **asynchronous decoupled event streaming** via a virtual-thread-backed domain event bus. An interactive, terminal-based gateway renders real-time ASCII data views for seamless customer and administrative interactions.
 
 ---
 
+## Project Objectives
 
-
-## 3. Technologies Used
-
-- **Language:** Java 21
-
-- **Build Tool:** Apache Maven 3.9+
-
-- **Testing:** JUnit 5 (Jupiter)
-
-- **Version Control:** Git
-
-
+- Implement a decoupled, scalable **microservices-based retail engine** using Java 21
+- Demonstrate proficiency in **object-oriented programming (OOP)** and domain encapsulation
+- Utilize **concurrent data structures** (`ConcurrentHashMap`, `CopyOnWriteArrayList`) for consistent multi-threaded state management
+- Design an **asynchronous event broker** (`EventBus`) leveraging Java virtual threads
+- Create a resilient **transaction rollback mechanism (Compensating Transactions)** for failed checkouts
+- Construct an **interactive menu-driven CLI interface** with structured ASCII data tables
+- Implement strict **defensive validation mechanisms** to guarantee data integrity across services
+- Validate platform reliability and edge-case behaviors with an automated **JUnit 5 test suite**
 
 ---
 
+## Features
 
+### 1. **User Identity & Account Management**
+- Registers customers with unique user identifiers and validated email addresses
+- Encrypts user credentials using SHA-256 cryptographic digests with Base64 encoding
+- Emits asynchronous `USER_REGISTERED` domain events upon completed user setup
 
-## 4. Steps to Install \& Run
+### 2. **Product Catalog & Real-Time Stock Control**
+- Manages product listings, categorical details, high-precision pricing (`BigDecimal`), and stock counts
+- Employs thread-safe synchronized methods to prevent race conditions during concurrent checkouts
+- Provides O(1) product lookups and real-time inventory adjustments
 
+### 3. **Transactional Order Saga Pipeline**
+- Validates active cart items against real-time catalog stock levels
+- Reserves required inventory upfront to eliminate overselling and race conditions
+- Charges order totals through an external `PaymentGateway` interface abstraction
+- Dispatches compensating transactions to restore deducted inventory if payment authorization fails
 
+### 4. **Asynchronous Notification Daemon**
+- Listens for platform domain events on background virtual threads without blocking checkout execution
+- Automatically logs simulated customer notifications for user registration, payment failures, and confirmed orders
 
-### Prerequisites
+### 5. **Interactive ASCII Terminal Gateway**
+- Renders boxed ASCII data tables for catalog exploration, shopping cart management, and order receipts
+- Implements defensive input handling to guard against non-numeric entries, negative values, and invalid UUIDs
 
-- JDK 21+ installed (`java -version`)
+---
 
-- Apache Maven installed (`mvn -v`)
+## Technical Stack
 
+| Component | Details |
+|-----------|---------|
+| **Programming Language** | Java 21 (LTS) |
+| **Language Features** | Records, Virtual Threads, Pattern Matching |
+| **Data Structures** | ConcurrentHashMap, CopyOnWriteArrayList, LinkedHashMap |
+| **Programming Paradigm** | Object-Oriented Programming (OOP) & Domain-Driven Design (DDD) |
+| **Architecture Pattern** | Event-Driven Microservices, Saga / Compensating Transactions |
+| **Build & Dependency Tool** | Apache Maven 3.9+ |
+| **Testing Framework** | JUnit 5 (Jupiter API & Engine) |
+| **User Interface** | Console-Based Menu System (ASCII Tabular) |
+| **Persistence Model** | Thread-Safe In-Memory Data Stores |
 
+---
 
-### Build the Project
+## System Architecture
 
-```bash
+### Package Structure
 
-mvn clean compile
+com.ecommerce/
+├── common/             # Domain events and asynchronous EventBus
+│   ├── DomainEvent.java
+│   └── EventBus.java
+├── user/               # Identity model, thread-safe repo, and registration logic
+│   ├── User.java
+│   ├── UserRepository.java
+│   └── UserService.java
+├── catalog/            # Products, synchronized stock tracking, and listing services
+│   ├── Product.java
+│   ├── ProductRepository.java
+│   └── CatalogService.java
+├── order/              # Orders, items, status lifecycle, and checkout saga engine
+│   ├── Order.java
+│   ├── OrderItem.java
+│   ├── OrderStatus.java
+│   └── OrderService.java
+├── payment/            # Gateway abstraction, charge pipelines, and mock processors
+│   ├── PaymentGateway.java
+│   └── PaymentService.java
+├── notification/       # Async event listener for automated email dispatching
+│   └── NotificationService.java
+├── cli/                # Interactive terminal interface and ASCII renderers
+│   └── ECommerceCLI.java
+└── Main.java           # System bootstrapper and sample catalog seeder
 
+### Class & Domain Structure
+
+**User Record:**
+Attributes:
+
+- id: String (Unique User UUID)
+
+- username: String (User handle)
+
+- email: String (Unique email address)
+
+- passwordHash: String (SHA-256 encrypted password digest)
+
+**Product Class:**
+Attributes:
+
+- id: String (Unique Product UUID)
+
+- name: String (Product title)
+
+- price: BigDecimal (Monetary unit value)
+
+- stock: int (Protected by synchronized concurrency locks)
+
+**Order Class:**
+Attributes:
+
+- orderId: String (Unique Order UUID)
+
+- userId: String (Customer UUID)
+
+- items: List (Collection of purchased line items)
+
+- totalAmount: BigDecimal (Aggregated financial total)
+
+- status: OrderStatus (PENDING, CONFIRMED, REJECTED, SHIPPED)
+
+- createdAt: Instant (Order placement timestamp)
