@@ -76,37 +76,10 @@ This project demonstrates core concepts of modern software engineering, includin
 
 ## System Architecture
 
-### Package Structure
-
-com.ecommerce/
-├── common/             # Domain events and asynchronous EventBus
-│   ├── DomainEvent.java
-│   └── EventBus.java
-├── user/               # Identity model, thread-safe repo, and registration logic
-│   ├── User.java
-│   ├── UserRepository.java
-│   └── UserService.java
-├── catalog/            # Products, synchronized stock tracking, and listing services
-│   ├── Product.java
-│   ├── ProductRepository.java
-│   └── CatalogService.java
-├── order/              # Orders, items, status lifecycle, and checkout saga engine
-│   ├── Order.java
-│   ├── OrderItem.java
-│   ├── OrderStatus.java
-│   └── OrderService.java
-├── payment/            # Gateway abstraction, charge pipelines, and mock processors
-│   ├── PaymentGateway.java
-│   └── PaymentService.java
-├── notification/       # Async event listener for automated email dispatching
-│   └── NotificationService.java
-├── cli/                # Interactive terminal interface and ASCII renderers
-│   └── ECommerceCLI.java
-└── Main.java           # System bootstrapper and sample catalog seeder
-
 ### Class & Domain Structure
 
 **User Record:**
+```
 Attributes:
 
 - id: String (Unique User UUID)
@@ -116,8 +89,10 @@ Attributes:
 - email: String (Unique email address)
 
 - passwordHash: String (SHA-256 encrypted password digest)
+```
 
 **Product Class:**
+```
 Attributes:
 
 - id: String (Unique Product UUID)
@@ -127,8 +102,10 @@ Attributes:
 - price: BigDecimal (Monetary unit value)
 
 - stock: int (Protected by synchronized concurrency locks)
+```
 
 **Order Class:**
+```
 Attributes:
 
 - orderId: String (Unique Order UUID)
@@ -142,3 +119,4 @@ Attributes:
 - status: OrderStatus (PENDING, CONFIRMED, REJECTED, SHIPPED)
 
 - createdAt: Instant (Order placement timestamp)
+```
